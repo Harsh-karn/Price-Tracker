@@ -1,32 +1,25 @@
-const { chromium } = require('playwright');
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const playwright_1 = require("playwright");
 (async () => {
-  const browser = await chromium.launch();
-  const page = await browser.newPage();
-  
-  page.on('response', async response => {
-    const url = response.url();
-    if (url.includes('api') && response.request().resourceType() === 'fetch') {
-      console.log(`[API] ${url}`);
-    }
-  });
-
-  console.log('Navigating...');
-  await page.goto('https://demo.inelabteamdev.com/', { waitUntil: 'networkidle' });
-  
-  const inputs = await page.locator('input').elementHandles();
-  console.log(`Found ${inputs.length} inputs`);
-  for (let input of inputs) {
-    const type = await input.getAttribute('type');
-    const placeholder = await input.getAttribute('placeholder');
-    console.log(`Input: type=${type}, placeholder=${placeholder}`);
-    if (placeholder && placeholder.toLowerCase().includes('search')) {
-      await input.fill('Rowing');
-      await page.keyboard.press('Enter');
-      await page.waitForTimeout(2000);
-      break;
-    }
-  }
-
-  await browser.close();
+    const browser = await playwright_1.chromium.launch();
+    const page = await browser.newPage();
+    page.on('response', async (response) => {
+        const url = response.url();
+        if (url.includes('api') || url.includes('json') || url.includes('product') || url.includes('demo.inelabteamdev.com')) {
+            if (response.request().resourceType() === 'fetch' || response.request().resourceType() === 'xhr') {
+                console.log(`[API Response] ${url}`);
+                try {
+                    const json = await response.json();
+                    console.log(JSON.stringify(json).substring(0, 200));
+                }
+                catch (e) { }
+            }
+        }
+    });
+    console.log('Navigating to the store...');
+    await page.goto('https://demo.inelabteamdev.com/', { waitUntil: 'networkidle' });
+    console.log('Done.');
+    await browser.close();
 })();
+//# sourceMappingURL=trace_api.js.map

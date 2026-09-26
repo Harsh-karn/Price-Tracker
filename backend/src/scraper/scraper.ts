@@ -140,8 +140,9 @@ export class Scraper {
     // For production, a worker pool would be better.
     const results = [];
     for (const item of trackedItems) {
-      const storeProductId = item.product_options?.products?.store_product_id;
-      const optionLabel = item.product_options?.label;
+      const untypedItem = item as any;
+      const storeProductId = untypedItem.product_options?.products?.store_product_id;
+      const optionLabel = untypedItem.product_options?.label;
       
       if (storeProductId && optionLabel) {
         const res = await this.scrapeItem(item.id, storeProductId, optionLabel);
