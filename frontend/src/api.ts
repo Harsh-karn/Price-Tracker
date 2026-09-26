@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Fallback to the live Render backend URL if the Vercel environment variable is missing
+const API_URL = import.meta.env.VITE_API_URL || 'https://price-tracker-backend-es5t.onrender.com';
 
 export const api = axios.create({
   baseURL: API_URL,
