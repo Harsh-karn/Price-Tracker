@@ -69,3 +69,17 @@ export const getTrackedItems = async (): Promise<TrackedItem[]> => {
   const { data } = await api.get('/api/tracked');
   return data;
 };
+
+export interface ScrapeHistory {
+  id: string;
+  tracked_item_id: string;
+  price: number | null;
+  stock: string | null;
+  outcome: 'success' | 'retried' | 'failed';
+  created_at: string;
+}
+
+export const getScrapeHistory = async (trackedItemId: string): Promise<ScrapeHistory[]> => {
+  const { data } = await api.get(`/api/tracked/${trackedItemId}/history`);
+  return data;
+};
