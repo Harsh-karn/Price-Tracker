@@ -1,0 +1,71 @@
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+export const api = axios.create({
+  baseURL: API_URL,
+});
+
+export interface Product {
+  id: number;
+  store_product_id?: number;
+  slug: string;
+  name: string;
+  brand: string;
+  category: string;
+  sku: string;
+}
+
+export interface ProductOption {
+  id: string;
+  label: string;
+  store_option_id?: string;
+}
+
+export interface TrackedItem {
+  id: string;
+  created_at: string;
+  product_options: {
+    id: string;
+    store_option_id: string;
+    label: string;
+    products: {
+      id: string;
+      store_product_id: number;
+      name: string;
+      slug: string;
+    }
+  }
+}
+
+export const searchProducts = async (query: string): Promise<Product[]> => {
+  const { data } = await api.get('/api/search', { params: { q: query } });
+  return data;
+};
+
+export const getProductOptions = async (id: number): Promise<ProductOption[]> => {
+  const { data } = await api.get(`/api/products/${id}/options`);
+  return data;
+};
+
+export const trackProduct = async (
+  storeProductId: number, 
+  name: string, 
+  slug: string, 
+  optionId: string, 
+  optionLabel: string
+) => {
+  const { data } = await api.post('/api/track', {
+    storeProductId,
+    name,
+    slug,
+    optionId,
+    optionLabel
+  });
+  return data;
+};
+
+export const getTrackedItems = async (): Promise<TrackedItem[]> => {
+  const { data } = await api.get('/api/tracked');
+  return data;
+};
