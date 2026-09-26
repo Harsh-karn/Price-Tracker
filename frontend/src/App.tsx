@@ -1,33 +1,30 @@
 import { useState } from 'react';
 import Search from './components/Search';
 import Dashboard from './components/Dashboard';
-import { LayoutDashboard, Search as SearchIcon } from 'lucide-react';
+import { LayoutDashboard, Search as SearchIcon, Activity } from 'lucide-react';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'search'>('dashboard');
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-indigo-500/30">
-      {/* Navigation */}
-      <nav className="border-b border-slate-800/50 bg-slate-900/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <span className="font-bold text-white text-lg">T</span>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                Tracker
+            <div className="flex items-center space-x-2">
+              <Activity className="h-6 w-6 text-blue-600" />
+              <span className="text-lg font-semibold tracking-tight text-gray-900">
+                Price Tracker
               </span>
             </div>
             
-            <div className="flex space-x-2 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+            <div className="flex space-x-1">
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeTab === 'dashboard' 
-                    ? 'bg-slate-800 text-white shadow-sm' 
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4" />
@@ -35,10 +32,10 @@ function App() {
               </button>
               <button
                 onClick={() => setActiveTab('search')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeTab === 'search' 
-                    ? 'bg-slate-800 text-white shadow-sm' 
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
                 <SearchIcon className="h-4 w-4" />
@@ -49,8 +46,7 @@ function App() {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'dashboard' ? <Dashboard /> : <Search />}
       </main>
     </div>
