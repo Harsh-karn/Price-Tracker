@@ -30,7 +30,9 @@ export class Scraper {
 
         const isHeaded = process.env.HEADED_MODE === 'true';
         browser = await chromium.launch({ headless: !isHeaded });
-        const context = await browser.newContext();
+        const context = await browser.newContext({
+          recordVideo: isHeaded ? { dir: './recordings/' } : undefined
+        });
         const page = await context.newPage();
         
         await page.goto(`${this.storeUrl}/item/${storeProductId}`, { waitUntil: 'networkidle' });
