@@ -1,52 +1,46 @@
 import { useState } from 'react';
 import Search from './components/Search';
 import Dashboard from './components/Dashboard';
-import { LayoutDashboard, Search as SearchIcon, Activity } from 'lucide-react';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'search'>('dashboard');
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
-              <Activity className="h-6 w-6 text-blue-600" />
-              <span className="text-lg font-semibold tracking-tight text-gray-900">
-                Price Tracker
-              </span>
+    <div className="min-h-screen bg-[#F9F9F8] text-[#1C1E1D] font-sans antialiased">
+      <nav className="border-b border-[#E4E6E5] bg-[#F9F9F8]">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="flex items-baseline justify-between py-6">
+            <div className="text-xl font-medium tracking-tight">
+              Price Tracker
             </div>
             
-            <div className="flex space-x-1">
+            <div className="flex space-x-6 text-sm">
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   activeTab === 'dashboard' 
-                    ? 'bg-blue-50 text-blue-700' 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'text-[#1C1E1D] border-b border-[#1C1E1D] pb-1' 
+                    : 'text-[#6A6D6C] hover:text-[#1C1E1D] pb-1'
                 }`}
               >
-                <LayoutDashboard className="h-4 w-4" />
-                <span>Dashboard</span>
+                Dashboard
               </button>
               <button
                 onClick={() => setActiveTab('search')}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   activeTab === 'search' 
-                    ? 'bg-blue-50 text-blue-700' 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'text-[#1C1E1D] border-b border-[#1C1E1D] pb-1' 
+                    : 'text-[#6A6D6C] hover:text-[#1C1E1D] pb-1'
                 }`}
               >
-                <SearchIcon className="h-4 w-4" />
-                <span>Search</span>
+                Search
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-4xl mx-auto px-6 py-12">
         {activeTab === 'dashboard' ? <Dashboard /> : <Search />}
       </main>
     </div>
