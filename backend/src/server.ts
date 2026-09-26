@@ -128,6 +128,20 @@ app.get('/api/tracked', async (req, res) => {
 
 import { scraper } from './scraper/scraper';
 
+app.get('/api/tracked/:id/history', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('scrape_history')
+      .select('*')
+      .eq('tracked_item_id', req.params.id)
+      .order('created_at', { ascending: false });
+      
+    if (error) throw error;
+    res.json(data);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
 app.post('/api/scrape/run', async (req, res) => {
   try {
     const results = await scraper.runAllScrapes();
