@@ -13,16 +13,3 @@ services:
         sync: false
       - key: MOCK_STORE_URL
         value: https://demo.inelabteamdev.com
-        
-  - type: web
-    name: price-tracker-frontend
-    env: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/dist
-    envVars:
-      - key: VITE_SUPABASE_URL
-        sync: false
-      - key: VITE_SUPABASE_ANON_KEY
-        sync: false
-      - key: VITE_API_URL
-        sync: false
