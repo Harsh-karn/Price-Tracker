@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getTrackedItems, getScrapeHistory, type TrackedItem, type ScrapeHistory } from '../api';
+import { getTrackedItems, getScrapeHistory, type TrackedItem, type ScrapeHistory, api as axiosApi } from '../api';
 
 export default function Dashboard() {
   const [items, setItems] = useState<TrackedItem[]>([]);
@@ -47,16 +47,28 @@ export default function Dashboard() {
     }
   };
 
+  const handleExport = () => {
+    window.open(`${axiosApi.defaults.baseURL}/api/export/csv`, '_blank');
+  };
+
   return (
     <div className="space-y-8 max-w-4xl">
       <div className="flex items-baseline justify-between">
         <h1 className="text-xl font-medium text-[#1C1E1D]">Active Tracking</h1>
-        <button 
-          onClick={fetchItems}
-          className="text-sm text-[#6A6D6C] hover:text-[#1C1E1D]"
-        >
-          {loading ? 'Refreshing...' : 'Refresh'}
-        </button>
+        <div className="flex gap-4">
+          <button 
+            onClick={handleExport}
+            className="text-sm text-[#1C1E1D] hover:underline"
+          >
+            Export CSV
+          </button>
+          <button 
+            onClick={fetchItems}
+            className="text-sm text-[#6A6D6C] hover:text-[#1C1E1D]"
+          >
+            {loading ? 'Refreshing...' : 'Refresh'}
+          </button>
+        </div>
       </div>
 
       {loading && items.length === 0 ? (

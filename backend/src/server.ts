@@ -151,6 +151,55 @@ app.post('/api/scrape/run', async (req, res) => {
   }
 });
 
+app.get('/api/export/csv', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('scrape_history')
+      .select(`
+        created_at,
+        price,
+        stock,
+        outcome,
+        tracked_items (
+          product_options (
+            label,
+            products (
+              store_product_id,
+              name
+            )
+          )
+        )
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="scrape_history.csv"');
+
+    let csv = 'Product ID,Product Name,Selected Option,Timestamp (UTC),Price,Stock,Outcome\n';
+    
+    for (const row of (data || [])) {
+      const ts = row.created_at;
+      const price = row.price !== null ? row.price : '';
+      const stock = row.stock !== null ? `"${row.stock}"` : '';
+      const outcome = row.outcome;
+      
+      const pOptions = (row as any).tracked_items?.product_options;
+      const label = pOptions?.label ? `"${pOptions.label}"` : '';
+      const p = pOptions?.products;
+      const storeProductId = p?.store_product_id || '';
+      const name = p?.name ? `"${p.name}"` : '';
+
+      csv += `${storeProductId},${name},${label},${ts},${price},${stock},${outcome}\n`;
+    }
+
+    res.send(csv);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });
