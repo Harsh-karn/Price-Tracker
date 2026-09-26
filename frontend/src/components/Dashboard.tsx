@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getTrackedItems, TrackedItem } from '../api';
+import { getTrackedItems, type TrackedItem } from '../api';
 import { Loader2, Activity, ExternalLink, RefreshCw } from 'lucide-react';
 
 export default function Dashboard() {

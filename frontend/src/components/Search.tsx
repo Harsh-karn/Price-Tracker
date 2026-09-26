@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search as SearchIcon, Plus, Loader2, CheckCircle2, ChevronRight, AlertCircle } from 'lucide-react';
-import { searchProducts, getProductOptions, trackProduct, Product, ProductOption } from '../api';
+import { searchProducts, getProductOptions, trackProduct, type Product, type ProductOption } from '../api';
 
 export default function Search() {
   const [query, setQuery] = useState('');
